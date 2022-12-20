@@ -93,7 +93,7 @@ try
        // throw new Exception(isset($errors[$code]) ? $errors[$code] : 'Undefined error', $code);
     }
 }
-catch(Exception $e)
+catch(\Exception $e)
 {
     die('Ошибка: ' . $e->getMessage() . PHP_EOL . 'Код ошибки: ' . $e->getCode());
 }
@@ -168,10 +168,10 @@ try
 {
     /** Если код ответа не успешный - возвращаем сообщение об ошибке  */
     if ($code < 200 || $code > 204) {
-        throw new Exception(isset($errors[$code]) ? $errors[$code] : 'Undefined error', $code);
+        throw new \Exception(isset($errors[$code]) ? $errors[$code] : 'Undefined error', $code);
     }
 }
-catch(Exception $e)
+catch(\Exception $e)
 {
     die('Ошибка: ' . $e->getMessage() . PHP_EOL . 'Код ошибки: ' . $e->getCode());
 }
@@ -197,15 +197,7 @@ DB::connection('mysql')->table('tokens')
 print_r($response);
 }
 
-function testupdate(){
-    DB::connection('mysql')->table('tokens')
-->where('id', 1)
-->update(['access_token' => 'test',
-'refresh_token' =>'test',
-'expires_in'=>86400,
-'created_at'=>now()
-]);
-}
+
 public function callback (Request $request){
  $code=$request->code;
  $subdomain = 'kirillovcorsocomocom'; //Поддомен нужного аккаунта
@@ -255,10 +247,10 @@ try
 {
     /** Если код ответа не успешный - возвращаем сообщение об ошибке  */
     if ($code < 200 || $code > 204) {
-        throw new Exception(isset($errors[$code]) ? $errors[$code] : 'Undefined error', $code);
+        throw new \Exception(isset($errors[$code]) ? $errors[$code] : 'Undefined error', $code);
     }
 }
-catch(Exception $e)
+catch(\Exception $e)
 {
     die('Ошибка: ' . $e->getMessage() . PHP_EOL . 'Код ошибки: ' . $e->getCode());
 }
@@ -286,9 +278,12 @@ print_r($response);
 }
 
 public function getorder(){
+    $start_order_id= 124877;
+    $o=NULL;
     $order = DB::connection('mysql2')->table('openorder')
     ->join('openorder_status', 'openorder.order_status_id', '=', 'openorder_status.order_status_id')
-    ->select('openorder.*', 'openorder_status.name AS statusName')->orderBy('openorder.order_id', 'desc')->first();
+    ->select('openorder.*', 'openorder_status.name AS statusName')->orderBy('openorder.order_id', 'asc')->where('openorder.order_id', '>', $start_order_id)->where('openorder.invoice_no', 0)->first();
+   if($order!= NULL){
     $total = (int) DB::connection('mysql2')->table('openorder_total')
                     ->where('order_id', $order->order_id)
                       ->where('code', 'total')
@@ -332,6 +327,7 @@ public function getorder(){
     ->where('openorder_product.order_id', $order->order_id)
     ->get();
 foreach ($p as $product) {
+    $product = (object)$product;
   $option = DB::connection('mysql2')->table('openorder_option')
 ->where('order_id', $order->order_id)
 ->where('order_product_id', $product->order_product_id)
@@ -346,6 +342,7 @@ foreach ($p as $product) {
   );
 
 }
+   }
 return $o;
 
 }
@@ -374,6 +371,7 @@ function addLead(){
     //доставка 986561
     // оплата 986543
     $order_data=$this->getorder();
+    if($order_data != NULL){
     $clientId = $_ENV['CLIENT_ID'];
     $clientSecret = $_ENV['CLIENT_SECRET'];
     $redirectUri = $_ENV['CLIENT_REDIRECT_URI'];
@@ -464,16 +462,9 @@ $leadsCollection = new LeadsCollection();
     ->add((new TextCustomFieldValueModel())->setValue("https://corsocomo.com/".$p->uid)));
     $leadCustomFieldsValues->add($productURLField);
     $countProducts++;
-       // $product_list .= " ".$p->uid." размер ". $p->size." в кол. ".$p->quantity." по цене ".$p->price;
+      
     }
-    /*$products = new TextCustomFieldValuesModel();
-    $products->setFieldId(985831);
-    $products->setValues(
-        (new TextCustomFieldValueCollection())
-            ->add((new TextCustomFieldValueModel())->setValue($product_list))
-    );*/
-    
-    //$leadCustomFieldsValues->add($products);
+   
     $lead = (new LeadModel())
         ->setName($order_data->id)
         ->setPrice($order_data->total)
@@ -538,89 +529,19 @@ try {
     $addedLeadsCollection = $apiClient->leads()->addComplex($leadsCollection);
     foreach($addedLeadsCollection as $l){
         print_r($l->id);
+        DB::connection('mysql2')->table('openorder')
+->where('order_id', $order_data->id)
+->update(['invoice_no' => $l->id]);
     }
-} catch (Throwable $e) {
+} catch (\Throwable $e) {
     report($e);
 
     return false;
 }
+    }
 
 }
 
-function addone (){
-    $clientId = $_ENV['CLIENT_ID'];
-    $clientSecret = $_ENV['CLIENT_SECRET'];
-    $redirectUri = $_ENV['CLIENT_REDIRECT_URI'];
 
-    $accessToken =  DB::connection('mysql')->table('tokens')->first();
-//dd( $accessToken);
-    $token = new AccessToken([
-        'access_token' => $accessToken->access_token,
-        'refresh_token' => $accessToken->refresh_token,
-        'expires' => $accessToken->expires_in,
-        'baseDomain' => $accessToken->baseDomain,
-    ]);
-
-    $apiClient = new AmoCRMApiClient($clientId, $clientSecret, $redirectUri);
-
-    $accessToken = $token;
-
-    $apiClient->setAccessToken($accessToken)->setAccountBaseDomain($accessToken->getValues()['baseDomain']);
-
-    $leadsService = $apiClient->leads();
-
-    $lead = new LeadModel();
-$leadCustomFieldsValues = new CustomFieldsValuesCollection();
-$delivery = new TextCustomFieldValuesModel();
-$delivery->setFieldId(985827);
-$delivery->setValues(
-    (new TextCustomFieldValueCollection())
-        ->add((new TextCustomFieldValueModel())->setValue('Текст'))
-);
-$leadCustomFieldsValues->add($delivery);
-$lead->setCustomFieldsValues($leadCustomFieldsValues);
-$lead->setName('Example');
-$lead->setContacts(
-    (new ContactsCollection())
-        ->add(
-            (new ContactModel())
-                ->setFirstName($externalLead['contact']['first_name'])
-                ->setLastName($externalLead['contact']['last_name'])
-                ->setCustomFieldsValues(
-                    (new CustomFieldsValuesCollection())
-                        ->add(
-                            (new MultitextCustomFieldValuesModel())
-                                ->setFieldCode('PHONE')
-                                ->setValues(
-                                    (new MultitextCustomFieldValueCollection())
-                                        ->add(
-                                            (new MultitextCustomFieldValueModel())
-                                                ->setValue($externalLead['contact']['phone'])
-                                        )
-                                )
-                        )->add(
-                            (new MultitextCustomFieldValuesModel())
-                                ->setFieldCode('EMAIL')
-                                ->setValues(
-                                    (new MultitextCustomFieldValueCollection())
-                                        ->add(
-                                            (new MultitextCustomFieldValueModel())
-                                                ->setValue($externalLead['contact']['email'])
-                                        )
-                                )
-                        )->add($textCustomFieldValueModel)
-                )
-        )
-                                        );
-
-
-try {
-    $lead = $leadsService->addOne($lead);
-} catch (AmoCRMApiException $e) {
-    report($e);
-    die;
-}
-
-}
 
 }
