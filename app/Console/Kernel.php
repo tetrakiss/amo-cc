@@ -18,6 +18,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->call('App\Http\Controllers\amoLeads@refreshToken')
                 ->hourly();
+        $schedule->call('App\Http\Controllers\amoLeads@addLead')
+                ->everyMinute();
     }
 
     /**
