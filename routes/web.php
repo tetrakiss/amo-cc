@@ -19,11 +19,14 @@ Route::get('/', function () {
 });
 
 
+Route::get('/callback', [amoLeads::class, 'callback']);
 Route::get('/amocode/refresh', [amoLeads::class, 'refreshToken']);
 Route::get('/amocode/testupdate', [amoLeads::class, 'testupdate']);
 Route::get('/amocode/getorder', [amoLeads::class, 'getorder']);
 Route::get('/amocode/addLead', [amoLeads::class, 'addLead']);
 Route::get('/amocode/addone', [amoLeads::class, 'addone']);
+Route::get('/amocode/getauthcode', [amoLeads::class, 'getauthcode']);
+
 
 
 

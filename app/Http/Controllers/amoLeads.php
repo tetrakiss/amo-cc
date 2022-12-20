@@ -89,7 +89,8 @@ try
 {
     /** Если код ответа не успешный - возвращаем сообщение об ошибке  */
     if ($code < 200 || $code > 204) {
-        throw new Exception(isset($errors[$code]) ? $errors[$code] : 'Undefined error', $code);
+        dd($code);
+       // throw new Exception(isset($errors[$code]) ? $errors[$code] : 'Undefined error', $code);
     }
 }
 catch(Exception $e)
@@ -122,13 +123,13 @@ function getauthcode() {
 
 $subdomain = 'kirillovcorsocomocom'; //Поддомен нужного аккаунта
 $link = 'https://' . $subdomain . '.amocrm.ru/oauth2/access_token'; //Формируем URL для запроса
-
+//def50200824a865924bbfedfd127793d6be35e05a66d2e8c8838e0134789412ff5be1256f76b0db710736b11a257008d833d417f8560e6d89046ab4d74382ec0128b2d5f6912992a15c8a5326985be0b4cd67866ba434ac81b671e6c23bc63ed488be9c01a891530bc749ccd7c8fea1325aae8e0f336caf27fd5ce8908610ff64a90a8e11cfdf13af3ede2b54a9f3d17d49194259519dfd10ae5eb3a046a8a0106ea56966e482b6c6443e9105d76e178c9e01692bf201e45e1ea8032741b7b83c31cf1bdeff56a541b3e40fc60a17ef9e03d43c4ad40592a75a98481dc710197aa359746f3c0c037c22158f11b987730696727bba277b1e129d8b32cac44722df8e9adef4a16a5dd42efe1aad587e078094b20320055a191e6d49fd4afe66c14e1dbdb7d54f82e197fd4e023a5ddd568e7e3dde01af3e695c05a0ac7409c1208323059298c4162ef2cebd98b5cc94d2931b8d57e5452e7abd836ffadbce1907d64fea15976e09b2fa53dc1640243f88a7fabaa275f0ea61f06d25e882146cf0b953299de69dbec01ce5b8db93efc8cf4710a56fcf797ff0be088ab0cca4e77112f5af50f9717d01a19edf4c2e3b3291938346a85c5f831c9050a298b1a548afc438d4db7103a10a05ccc4613d6d851582ce569467324f70c372204f1f4b1fe523b068e10
 /** Соберем данные для запроса */
 $data = [
     'client_id' => '51663aab-2fae-42df-81fb-f24496dc0380',
     'client_secret' => '1GE4bWFWv6AUhuHw2zUIob5V08WlryXfBRzf0yS9UMX5Bf235UdGhle3vpbz30He',
     'grant_type' => 'authorization_code',
-    'code' => 'def5020038a601e59ff292240c47a1fa3a582d74ce63e156adf6b6f9003bd683f431d0ca6d5a3f6430006ed2c772be1d582a55386bd0b2bbfce0505d2469ceab4ee9e983cc958aacfb4fd2d5149e4b4cb610da8c49636511d7a52e9fdca8bda0deb8f66b97d0b36d133428df11e24fb374c19137718cdde6d82ee0cc9e48520722781fdaa83cd68afec09c38efffa46c18ed5082a070f27d033ef3b7131337171bde8164ffbc9bf677617e014893c77c35649172140fb9ef9408cbbfdbe18c035311d0a69c7c96421b3f56ec2edde02f32732795b93eac0d109374f9223e31ed515ab582b1c4a5e0fe6178f815f0053ee2d73a899213d9c600f7d6a1f475d074bedf12d3be0f94bc5d2c422753cc9442e6e67bd5c11adf19d20265131042ff5dc6b9f40f4072258126c3c518348f381cf87b93e04210c11a62acde2b7f8d5355634e2ffbabccb0e0d31b7b0a842a53fff3e2a79cb22505443e9ca509c294cac10d305a0b41fb1da68afa67e466c851057e2c32373fb635e933ea84579552c215c661116a66ab1cafbd0c111877516e29aafcf02d72f285ee811290f47a27ce53081849312b43b60aa4cd2c7ada3e6018717ea16cd1b737d41ada35b0d50249a83cfffa0967ba3ca0c20b3a67c84d425a8443ef2693086c54773ab39dd8b7ca6c9d8b72b8',
+    'code' => 'def50200824a865924bbfedfd127793d6be35e05a66d2e8c8838e0134789412ff5be1256f76b0db710736b11a257008d833d417f8560e6d89046ab4d74382ec0128b2d5f6912992a15c8a5326985be0b4cd67866ba434ac81b671e6c23bc63ed488be9c01a891530bc749ccd7c8fea1325aae8e0f336caf27fd5ce8908610ff64a90a8e11cfdf13af3ede2b54a9f3d17d49194259519dfd10ae5eb3a046a8a0106ea56966e482b6c6443e9105d76e178c9e01692bf201e45e1ea8032741b7b83c31cf1bdeff56a541b3e40fc60a17ef9e03d43c4ad40592a75a98481dc710197aa359746f3c0c037c22158f11b987730696727bba277b1e129d8b32cac44722df8e9adef4a16a5dd42efe1aad587e078094b20320055a191e6d49fd4afe66c14e1dbdb7d54f82e197fd4e023a5ddd568e7e3dde01af3e695c05a0ac7409c1208323059298c4162ef2cebd98b5cc94d2931b8d57e5452e7abd836ffadbce1907d64fea15976e09b2fa53dc1640243f88a7fabaa275f0ea61f06d25e882146cf0b953299de69dbec01ce5b8db93efc8cf4710a56fcf797ff0be088ab0cca4e77112f5af50f9717d01a19edf4c2e3b3291938346a85c5f831c9050a298b1a548afc438d4db7103a10a05ccc4613d6d851582ce569467324f70c372204f1f4b1fe523b068e10',
     'redirect_uri' => 'https://amo.corsocomo.com/callback',
 ];
 
@@ -205,6 +206,84 @@ function testupdate(){
 'created_at'=>now()
 ]);
 }
+public function callback (Request $request){
+ $code=$request->code;
+ $subdomain = 'kirillovcorsocomocom'; //Поддомен нужного аккаунта
+$link = 'https://' . $subdomain . '.amocrm.ru/oauth2/access_token'; //Формируем URL для запроса
+/** Соберем данные для запроса */
+
+$data = [
+    'client_id' => $_ENV['CLIENT_ID'],
+    'client_secret' =>$_ENV['CLIENT_SECRET'] ,
+    'grant_type' => 'authorization_code',
+    'code' =>$code,
+    'redirect_uri' => $_ENV['CLIENT_REDIRECT_URI'],
+];
+
+/**
+ * Нам необходимо инициировать запрос к серверу.
+ * Воспользуемся библиотекой cURL (поставляется в составе PHP).
+ * Вы также можете использовать и кроссплатформенную программу cURL, если вы не программируете на PHP.
+ */
+$curl = curl_init(); //Сохраняем дескриптор сеанса cURL
+/** Устанавливаем необходимые опции для сеанса cURL  */
+curl_setopt($curl,CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl,CURLOPT_USERAGENT,'amoCRM-oAuth-client/1.0');
+curl_setopt($curl,CURLOPT_URL, $link);
+curl_setopt($curl,CURLOPT_HTTPHEADER,['Content-Type:application/json']);
+curl_setopt($curl,CURLOPT_HEADER, false);
+curl_setopt($curl,CURLOPT_CUSTOMREQUEST, 'POST');
+curl_setopt($curl,CURLOPT_POSTFIELDS, json_encode($data));
+curl_setopt($curl,CURLOPT_SSL_VERIFYPEER, 1);
+curl_setopt($curl,CURLOPT_SSL_VERIFYHOST, 2);
+$out = curl_exec($curl); //Инициируем запрос к API и сохраняем ответ в переменную
+$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+curl_close($curl);
+/** Теперь мы можем обработать ответ, полученный от сервера. Это пример. Вы можете обработать данные своим способом. */
+$code = (int)$code;
+$errors = [
+    400 => 'Bad request',
+    401 => 'Unauthorized',
+    403 => 'Forbidden',
+    404 => 'Not found',
+    500 => 'Internal server error',
+    502 => 'Bad gateway',
+    503 => 'Service unavailable',
+];
+
+try
+{
+    /** Если код ответа не успешный - возвращаем сообщение об ошибке  */
+    if ($code < 200 || $code > 204) {
+        throw new Exception(isset($errors[$code]) ? $errors[$code] : 'Undefined error', $code);
+    }
+}
+catch(Exception $e)
+{
+    die('Ошибка: ' . $e->getMessage() . PHP_EOL . 'Код ошибки: ' . $e->getCode());
+}
+
+/**
+ * Данные получаем в формате JSON, поэтому, для получения читаемых данных,
+ * нам придётся перевести ответ в формат, понятный PHP
+ */
+$response = json_decode($out, true);
+
+$access_token = $response['access_token']; //Access токен
+$refresh_token = $response['refresh_token']; //Refresh токен
+$token_type = $response['token_type']; //Тип токена
+$expires_in = $response['expires_in']; //Через сколько действие токена истекает
+DB::connection('mysql')->table('tokens')
+->where('id', 1)
+->update(['access_token' => $access_token,
+'refresh_token' =>$refresh_token,
+'expires_in'=>$expires_in,
+'created_at'=>now()
+]);
+
+print_r($response);
+
+}
 
 public function getorder(){
     $order = DB::connection('mysql2')->table('openorder')
@@ -214,13 +293,18 @@ public function getorder(){
                     ->where('order_id', $order->order_id)
                       ->where('code', 'total')
                     ->value('value');
+
     $delivery = (int) DB::connection('mysql2')->table('openorder_total')
                   ->where('order_id', $order->order_id)
                   ->where('code', 'shipping')
                   ->value('value');
+                  if($delivery==NULL){
+                    $delivery=0;
+                  }
 
     $o = (object) array(
         'id' => $order->order_id,
+        'payment_method'=>$order->payment_method,
         'date' => $order->date_added,
         'total'=>$total ,
         'firstname' => $order->shipping_firstname,
@@ -267,6 +351,28 @@ return $o;
 }
 
 function addLead(){
+    $fieldsProduct = [
+        985831,
+        987139,
+        987141,
+        987145 
+    ];
+    $fieldsURL = [
+        986541,
+        986555,
+        986557,
+        986559
+    ];
+    //Товар1 985831
+    //url1 986541
+    //Товар2 986563
+    //url2 986555
+    //Товар3 986565
+    //url3 986557
+    //Товар4 986567
+    //url4 986559
+    //доставка 986561
+    // оплата 986543
     $order_data=$this->getorder();
     $clientId = $_ENV['CLIENT_ID'];
     $clientSecret = $_ENV['CLIENT_SECRET'];
@@ -315,24 +421,59 @@ $leadsCollection = new LeadsCollection();
 //Создадим модели и заполним ими коллекцию
 //foreach ($externalData as $externalLead) {
     $leadCustomFieldsValues = new CustomFieldsValuesCollection();
-    $delivery = new TextCustomFieldValuesModel();
-    $delivery->setFieldId(985827);
-    $delivery->setValues(
+    $deliveryAdress = new TextCustomFieldValuesModel();
+    $deliveryAdress->setFieldId(985827);
+    $deliveryAdress->setValues(
         (new TextCustomFieldValueCollection())
             ->add((new TextCustomFieldValueModel())->setValue($order_data->city.' '.$order_data->address1.' '.$order_data->address2.' '.$order_data->metro))
     );
-    $product_list='';
+    $leadCustomFieldsValues->add($deliveryAdress);
+
+
+    $deliveryPrice = new TextCustomFieldValuesModel();
+    $deliveryPrice->setFieldId(986561);
+    $deliveryPrice->setValues(
+        (new TextCustomFieldValueCollection())
+            ->add((new TextCustomFieldValueModel())->setValue($order_data->delivery.' ₽'))
+    );
+    $leadCustomFieldsValues->add($deliveryPrice);
+
+    $payment_method = new TextCustomFieldValuesModel();
+    $payment_method->setFieldId(986543);
+    $payment_method->setValues(
+        (new TextCustomFieldValueCollection())
+            ->add((new TextCustomFieldValueModel())->setValue($order_data->payment_method))
+    );
+    $leadCustomFieldsValues->add($payment_method);
+
+   // $product_list='';
+    $countProducts=0;
     foreach($order_data->products as $p){
-        $product_list .= " ".$p->uid." размер ". $p->size." в кол. ".$p->quantity." по цене ".$p->price;
+        $productField = new TextCustomFieldValuesModel();
+        $productField->setFieldId($fieldsProduct[$countProducts]);
+        $productField->setValues(
+        (new TextCustomFieldValueCollection())
+            ->add((new TextCustomFieldValueModel())->setValue($p->uid." размер ". $p->size." в кол. ".$p->quantity." по цене ".$p->price.' ₽'))
+    );
+    $leadCustomFieldsValues->add($productField);
+
+    $productURLField = new TextCustomFieldValuesModel();
+    $productURLField->setFieldId($fieldsURL[$countProducts]);
+    $productURLField->setValues(
+    (new TextCustomFieldValueCollection())
+    ->add((new TextCustomFieldValueModel())->setValue("https://corsocomo.com/".$p->uid)));
+    $leadCustomFieldsValues->add($productURLField);
+    $countProducts++;
+       // $product_list .= " ".$p->uid." размер ". $p->size." в кол. ".$p->quantity." по цене ".$p->price;
     }
-    $products = new TextCustomFieldValuesModel();
+    /*$products = new TextCustomFieldValuesModel();
     $products->setFieldId(985831);
     $products->setValues(
         (new TextCustomFieldValueCollection())
             ->add((new TextCustomFieldValueModel())->setValue($product_list))
-    );
-    $leadCustomFieldsValues->add($delivery);
-    $leadCustomFieldsValues->add($products);
+    );*/
+    
+    //$leadCustomFieldsValues->add($products);
     $lead = (new LeadModel())
         ->setName($order_data->id)
         ->setPrice($order_data->total)
