@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\amoLeads;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/amocode/refresh', [amoLeads::class, 'refreshToken']);
+Route::get('/amocode/testupdate', [amoLeads::class, 'testupdate']);
+Route::get('/amocode/getorder', [amoLeads::class, 'getorder']);
+Route::get('/amocode/addLead', [amoLeads::class, 'addLead']);
+Route::get('/amocode/addone', [amoLeads::class, 'addone']);
+
+
+
+
+
+ 
+Route::get('/amocode/get', [amoLeads::class, 'getauthcode']);
