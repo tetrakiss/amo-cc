@@ -449,6 +449,8 @@ $leadsCollection = new LeadsCollection();
    // $product_list='';
     $countProducts=0;
     foreach($order_data->products as $p){
+        //ограничение если продуктов больше 5
+        if($countProducts < 6 ){
         $productField = new TextCustomFieldValuesModel();
         $productField->setFieldId($fieldsProduct[$countProducts]);
         $productField->setValues(
@@ -464,6 +466,7 @@ $leadsCollection = new LeadsCollection();
     ->add((new TextCustomFieldValueModel())->setValue("https://corsocomo.com/".$p->uid)));
     $leadCustomFieldsValues->add($productURLField);
     $countProducts++;
+        }
       
     }
    
