@@ -335,6 +335,7 @@ foreach ($p as $product) {
  
   
   $o->products[] = (object) array(
+    'id' => (int) $product->order_product_id,
     'uid' => (string) $product->model,
     'size' => str_replace('.', ',', $option),
     'quantity' => (int) $product->quantity,
@@ -463,7 +464,7 @@ $leadsCollection = new LeadsCollection();
     $productURLField->setFieldId($fieldsURL[$countProducts]);
     $productURLField->setValues(
     (new TextCustomFieldValueCollection())
-    ->add((new TextCustomFieldValueModel())->setValue("https://corsocomo.com/".$p->uid)));
+    ->add((new TextCustomFieldValueModel())->setValue("https://corsocomo.com/index.php?route=product/product&product_id=".$p->id)));
     $leadCustomFieldsValues->add($productURLField);
     $countProducts++;
         }
