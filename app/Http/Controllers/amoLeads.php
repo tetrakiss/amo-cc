@@ -335,7 +335,7 @@ foreach ($p as $product) {
  
   
   $o->products[] = (object) array(
-    'id' => (int) $product->order_product_id,
+    'id' => (int) $product->product_id,
     'uid' => (string) $product->model,
     'size' => str_replace('.', ',', $option),
     'quantity' => (int) $product->quantity,
