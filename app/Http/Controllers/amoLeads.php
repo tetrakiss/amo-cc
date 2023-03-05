@@ -276,6 +276,76 @@ DB::connection('mysql')->table('tokens')
 print_r($response);
 
 }
+public function getorderbyid($ID){
+    
+    $o=NULL;
+    $order = DB::connection('mysql2')->table('openorder')
+    ->join('openorder_status', 'openorder.order_status_id', '=', 'openorder_status.order_status_id')
+    ->select('openorder.*', 'openorder_status.name AS statusName')->orderBy('openorder.order_id', 'asc')->where('openorder.order_id', $ID)->first();
+   if($order!= NULL){
+    $total = (int) DB::connection('mysql2')->table('openorder_total')
+                    ->where('order_id', $order->order_id)
+                      ->where('code', 'total')
+                    ->value('value');
+
+    $delivery = (int) DB::connection('mysql2')->table('openorder_total')
+                  ->where('order_id', $order->order_id)
+                  ->where('code', 'shipping')
+                  ->value('value');
+                  if($delivery==NULL){
+                    $delivery=0;
+                  }
+
+    $o = (object) array(
+        'id' => $order->order_id,
+        'payment_method'=>$order->payment_method,
+        'date' => $order->date_added,
+        'total'=>$total ,
+        'firstname' => $order->shipping_firstname,
+        'lastname' => $order->shipping_lastname,
+        'delivery' => $delivery,
+        'city' => $order->payment_city,
+        'address1' => $order->payment_address_1,
+        'address2' => $order->payment_address_2,
+        'zone' => $order->shipping_zone,
+        'telephone' => str_replace(array('(', ')', '+', '-', '.', '/', ' '), '', $order->telephone),
+        'email' => $order->email,
+        'metro' => $order->shipping_metro,
+        'comment' => $order->comment,
+        'postcode' => $order->shipping_postcode,
+        'deliveryDate' => str_replace('0000-00-00', '0001-01-01', $order->delivery_date),
+        'deliveryTime' => $order->delivery_time,
+        'paymentСode' => $order->payment_code,
+        'discountCard' => $order->shipping_company,
+        'deliveryPrice' => (int) $delivery,
+       );
+    $p = DB::connection('mysql2')->table('openorder_product')
+    //->leftJoin('openorder_option', 'openorder_product.order_id', '=', 'openorder_option.order_id')
+    ->join('openproduct', 'openorder_product.product_id', '=', 'openproduct.product_id')
+    ->select('openorder_product.product_id', 'openorder_product.model', 'openorder_product.order_product_id', 'openorder_product.price', 'openorder_product.quantity', 'openproduct.upc AS uid')
+    ->where('openorder_product.order_id', $order->order_id)
+    ->get();
+foreach ($p as $product) {
+    $product = (object)$product;
+  $option = DB::connection('mysql2')->table('openorder_option')
+->where('order_id', $order->order_id)
+->where('order_product_id', $product->order_product_id)
+->value('value');
+ 
+  
+  $o->products[] = (object) array(
+    'id' => (int) $product->product_id,
+    'uid' => (string) $product->model,
+    'size' => str_replace('.', ',', $option),
+    'quantity' => (int) $product->quantity,
+    'price' => (int) $product->price,
+  );
+
+}
+   }
+return $o;
+
+}
 
 public function getorder(){
     $start_order_id= 124877;
