@@ -521,7 +521,7 @@ $leadsCollection = new LeadsCollection();
     $countProducts=0;
     foreach($order_data->products as $p){
         //ограничение если продуктов больше 5
-        if($countProducts < 6 ){
+        if($countProducts < 5 ){
         $productField = new TextCustomFieldValuesModel();
         $productField->setFieldId($fieldsProduct[$countProducts]);
         $productField->setValues(
